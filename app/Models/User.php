@@ -52,4 +52,8 @@ class User extends Authenticatable
     public function coins() {
         return $this->hasMany(CoinRequest::class);
     }
+
+    public function passes() {
+        return $this->hasMany(Pass::class);
+    }
 }
