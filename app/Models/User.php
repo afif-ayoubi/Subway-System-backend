@@ -45,6 +45,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    
     public function chats() {
         return $this->hasMany(Chat::class);
     }
