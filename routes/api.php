@@ -3,10 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TodoController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\PassController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +24,25 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
 });
+
+Route::controller(ReviewController::class)->group(function () {
+    Route::get('reviews', 'index');
+    Route::get('reviews/{id}','show');
+    Route::post('reviews', 'store');
+    Route::put('reviews/{id}', 'update');
+    Route::delete('reviews/{id}', 'destroy');
+});
+
+
+Route::controller(StationController::class)->group(function () {
+    Route::get('stations', 'index');
+    Route::get('stations/{id}','show');
+    Route::post('stations', 'store');
+    Route::put('stations/{id}', 'update');
+    Route::delete('stations/{id}', 'destroy');
+    Route::get('stations/{id}/location', 'getLocation');
+});
+
 Route::get('testing', function () {
     return "this is a test api";
 });
