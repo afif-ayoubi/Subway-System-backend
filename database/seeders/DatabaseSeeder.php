@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use PassesTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,11 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+      $this->call(RolesTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(StationsTableSeeder::class);
+        $this->call(RidesTableSeeder::class);
+        $this->call(TicketsTableSeeder::class);
+        // $this->call(PassesTableSeeder::class);
+        $this->call(ReviewsTableSeeder::class);
+        $this->call(CoinRequestsTableSeeder::class);
+        $this->call(ChatsTableSeeder::class);
     }
 }
