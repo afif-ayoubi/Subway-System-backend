@@ -10,10 +10,14 @@ class ChatController extends Controller
     public function addchat(Request $request)
     {
         $validatedData = $this->validateChatRequest($request);
-
-
-        $chat = Chat::create($validatedData);
-
+    
+        $chat = new Chat();
+        $chat->user_id = $validatedData['user_id'];
+        $chat->recipient_id = $validatedData['recipient_id'];
+        $chat->message = $validatedData['message'];
+    
+        $chat->save();
+    
         return response()->json(['chat' => $chat], 201);
     }
 
