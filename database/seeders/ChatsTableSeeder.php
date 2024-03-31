@@ -9,7 +9,6 @@ class ChatsTableSeeder extends Seeder
 {
     public function run()
     {
-        // Seed some example chats
         DB::table('chats')->insert([
             [
                 'user_id' => 1,

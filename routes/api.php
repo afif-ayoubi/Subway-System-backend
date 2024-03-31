@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,7 @@ Route::get('testing', function () {
     return "this is a test api";
 });
 
-Route::post('/addchat', [ChatController::class, 'addchat']);
+Route::post('/addChat', [ChatController::class, 'addchat']);
 Route::get('/getChats/{user_id}/{recipient_id}', [ChatController::class, 'getChats']);
+Route::get('/getAllTicketsForUser/{user_id}', [TicketController::class, 'getTickets']);
+Route::post('/addTicket', [TicketController::class, 'addTicket']); 
