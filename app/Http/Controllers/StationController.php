@@ -80,6 +80,22 @@ class StationController extends Controller
     }
 
     /**
+     * Get the location of a station by its ID.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getLocation($id)
+    {
+        $station = Station::findOrFail($id);
+        $location = [
+            'latitude' => $station->latitude,
+            'longitude' => $station->longitude,
+        ];
+        return response()->json(['location' => $location], 200);
+    }
+
+    /**
      * Remove the specified station from storage.
      *
      * @param  int  $id
