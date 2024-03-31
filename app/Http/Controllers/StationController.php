@@ -7,11 +7,12 @@ use App\Models\Station;
 
 class StationController extends Controller
 {
-    /**
-     * Display a listing of the stations.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         $stations = Station::all();
