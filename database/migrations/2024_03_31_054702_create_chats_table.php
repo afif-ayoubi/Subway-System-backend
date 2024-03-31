@@ -16,8 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('recipient_id');
             $table->text('message');
-            $table->timestamp('sent_at');
-            $table->boolean('sender_type'); 
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
