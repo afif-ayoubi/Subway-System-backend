@@ -20,7 +20,6 @@ return new class extends Migration
             $table->enum('status', ['pending', 'ongoing', 'completed']);
             $table->timestamps();
 
-            // Foreign key constraints
             $table->foreign('departure_station_id')->references('id')->on('stations')->onDelete('cascade');
             $table->foreign('arrival_station_id')->references('id')->on('stations')->onDelete('cascade');
         });

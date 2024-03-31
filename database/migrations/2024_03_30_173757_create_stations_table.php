@@ -23,7 +23,6 @@ return new class extends Migration
             $table->enum('service_status', ['operational', 'maintenance', 'closed']);
             $table->timestamps();
 
-            // Foreign key constraint
             $table->foreign('manager_id')->references('id')->on('users')->onDelete('set null');
         });
     }
