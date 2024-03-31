@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Station extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name', 'manager_id', 'latitude', 'longitude', 'address', 'operating_hours', 'facilities', 'service_status'
+    ];
 
-
-    public function rides() {
-        return $this->hasMany(Ride::class);
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
     }
 }

@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('ride_id');
-            $table->integer('rating');
-            $table->text('comment')->nullable();
             $table->timestamps();
 
-            // Foreign key constraints
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('ride_id')->references('id')->on('rides')->onDelete('cascade');
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('tickets');
     }
 };

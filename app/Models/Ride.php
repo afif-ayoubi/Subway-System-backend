@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ride extends Model
 {
-    use HasFactory;
 
-    public function tickets() {
-        return $this->hasMany(Ticket::class);
+    protected $fillable = [
+        'departure_station_id', 'arrival_station_id', 'departure_time', 'arrival_time', 'status'
+    ];
+    public function departureStation()
+    {
+        return $this->belongsTo(Station::class, 'departure_station_id');
     }
 
-    public function reveiws() {
-        return $this->hasMany(Review::class);
+    public function arrivalStation()
+    {
+        return $this->belongsTo(Station::class, 'arrival_station_id');
     }
 }
