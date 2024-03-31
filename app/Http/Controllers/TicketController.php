@@ -26,13 +26,14 @@ class TicketController extends Controller
 
     public function getTickets($user_id)
     {
-        $tickets = Ticket::with('ride')->where('user_id', $user_id)->get();
-
-        if ($tickets->isEmpty()) {
+        $ticket = Ticket::with('ride')->where( function ($query) use ($user_id) {
+            $query->where('id', $user_id);
+        })->get();
+        if ($ticket) {
+            return response()->json(['status' => 'success', 'tickets' => $ticket], 200);
+        } else {
             return response()->json(['status' => 'error', 'message' => 'Tickets not found'], 404);
         }
-
-        return response()->json(['status' => 'success', 'tickets' => $tickets], 200);
     }
 
     private function validateTicketRequest(Request $request)
