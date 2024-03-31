@@ -22,7 +22,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
-    Route::post('/chats', [ChatController::class, 'store']);
-    Route::get('/chat/{user_id}/{recipient_id}', [ChatController::class, 'getMessages']);
-
 });
+Route::get('testing', function () {
+    return "this is a test api";
+});
+
+Route::post('/addchat', [ChatController::class, 'addchat']);
+Route::get('/getChats/{user_id}/{recipient_id}', [ChatController::class, 'getChats']);
