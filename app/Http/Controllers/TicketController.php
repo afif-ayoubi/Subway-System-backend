@@ -8,6 +8,10 @@ use Illuminate\Validation\ValidationException;
 
 class TicketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function addTicket(Request $request)
     {
         try {
@@ -43,4 +47,5 @@ class TicketController extends Controller
             'ride_id' => 'required|exists:rides,id'
         ]);
     }
+    
 }

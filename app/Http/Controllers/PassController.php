@@ -8,6 +8,10 @@ use Illuminate\Validation\ValidationException;
 
 class PassController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     public function addPass(Request $request)
     {
         try {
@@ -44,4 +48,5 @@ class PassController extends Controller
             'valid_until' => 'required|date',
         ]);
     }
+    
 }
