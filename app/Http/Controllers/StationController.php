@@ -108,4 +108,12 @@ class StationController extends Controller
         $station->delete();
         return response()->json(null, 204);
     }
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $stations = Station::where('name', 'like', "%$keyword%")
+            ->orWhere('address', 'like', "%$keyword%")
+            ->get();
+        return response()->json(['status' => 'sucees', 'stations' => $stations], 200);
+    }
 }
