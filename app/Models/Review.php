@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'ride_id', 'rating', 'comment'];
+    protected $fillable = ['user_id', 'station', 'rating', 'comment'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function ride()
+    public function station()
     {
-        return $this->belongsTo(Ride::class);
+        return $this->belongsTo(Station::class);
     }
 }

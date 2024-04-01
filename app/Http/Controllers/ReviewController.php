@@ -46,7 +46,7 @@ class ReviewController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'ride_id' => 'required|exists:rides,id',
+            'station_id' => 'required|exists:rides,id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
@@ -68,7 +68,7 @@ class ReviewController extends Controller
 
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'ride_id' => 'required|exists:rides,id',
+            'station_id' => 'required|exists:rides,id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
