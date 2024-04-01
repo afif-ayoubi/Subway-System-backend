@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('ride_id');
             $table->timestamps();
-            $table->float('price')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('ride_id')->references('id')->on('rides')->onDelete('cascade');

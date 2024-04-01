@@ -58,7 +58,7 @@ Route::middleware('auth:api')->group(function () {
     // Coin Request API
     Route::get('/get-all-coin-requests', [CoinRequestController::class, 'getAllRequest']);
     Route::post('/add-coin-request', [CoinRequestController::class, 'add']);
-    Route::put('/update-coin-request/{id}', [CoinRequestController::class, 'update']);
+    Route::post('/update-coin-request/{id}', [CoinRequestController::class, 'update']);
     Route::delete('/delete-coin-request/{id}', [CoinRequestController::class, 'delete']);
 
     // Pass API
@@ -68,8 +68,8 @@ Route::middleware('auth:api')->group(function () {
     // Ride API
     Route::get('/rides-for-departure/{station_id}', [RideController::class, 'getRidesForDeparture']);
     Route::get('/rides-for-arrival/{station_id}', [RideController::class, 'getRidesForArrivalStation']);
-    Route::put('/update-ride/{rideId}', [RideController::class, 'updateRide']);
-    Route::delete('/delete-ride/{rideId}', [RideController::class, 'deleteRide']);
+    Route::post('/update-ride/{rideId}', [RideController::class, 'updateRide']);
+    Route::post('/delete-ride/{rideId}', [RideController::class, 'deleteRide']);
     Route::post('/add-ride', [RideController::class, 'addRide']);
 
     // Ticket API

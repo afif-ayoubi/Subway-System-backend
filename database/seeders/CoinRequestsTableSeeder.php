@@ -7,21 +7,21 @@ use Illuminate\Support\Facades\DB;
 
 class CoinRequestsTableSeeder extends Seeder
 {
+
     public function run()
     {
-        DB::table('coin_requests')->insert([
-            [
-                'user_id' => 1,
-                'amount' => 100,
+        $passengerIds = DB::table('users')->where('role_id', 1)->pluck('id');
+
+
+        foreach ($passengerIds as $passengerId) {
+            DB::table('coin_requests')->insert([
+                'user_id' => $passengerId,
+                'amount' => rand(10, 100), 
                 'status' => 'pending',
                 'requested_at' => now(),
-            ],
-            [
-                'user_id' => 2,
-                'amount' => 200,
-                'status' => 'pending',
-                'requested_at' => now(),
-            ],
-        ]);
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

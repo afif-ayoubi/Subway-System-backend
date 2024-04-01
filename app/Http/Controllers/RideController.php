@@ -38,7 +38,7 @@ class RideController extends Controller
     }
     public function addRide(Request $request)
     {
-        $validatedData = $this->validateChatRequest($request);
+        $validatedData = $this->validateDataRequest($request);
         $ride = new Ride();
         $ride->departure_station_id = $validatedData['departure_station_id'];
         $ride->arrival_station_id = $validatedData['arrival_station_id'];
