@@ -42,6 +42,7 @@ Route::controller(StationController::class)->group(function () {
     Route::delete('stations/{id}', 'destroy');
     Route::get('stations/{id}/location', 'getLocation');
     Route::post('stations', 'search');
+    Route::get('stations', 'getReviews');
 });
 
 Route::get('testing', function () {

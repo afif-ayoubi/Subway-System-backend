@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('type', ['daily', 'weekly', 'monthly']);
             $table->dateTime('valid_from');
             $table->dateTime('valid_until');
+            $table->float('price')->nullable();
             $table->timestamp('purchased_at')->useCurrent();
             $table->timestamps();
 
