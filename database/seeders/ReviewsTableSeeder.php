@@ -7,26 +7,26 @@ use Illuminate\Support\Facades\DB;
 
 class ReviewsTableSeeder extends Seeder
 {
+
     public function run()
     {
-        // Seed some example reviews
-        DB::table('reviews')->insert([
-            [
-                'user_id' => 1,
-                'ride_id' => 1,
-                'rating' => 4,
-                'comment' => 'Great ride!',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => 2,
-                'ride_id' => 2,
-                'rating' => 5,
-                'comment' => 'Excellent service!',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        $passengerIds = DB::table('users')->where('role_id', 1)->pluck('id');
+
+        $stationIds = DB::table('stations')->pluck('id');
+
+        foreach ($passengerIds as $passengerId) {
+            foreach ($stationIds as $stationId) {
+                $rating = rand(1, 5);
+
+                DB::table('reviews')->insert([
+                    'user_id' => $passengerId,
+                    'station_id' => $stationId,
+                    'rating' => $rating,
+                    'comment' => 'This station is great!', 
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }

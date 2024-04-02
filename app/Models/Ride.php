@@ -20,4 +20,8 @@ class Ride extends Model
     {
         return $this->belongsTo(Station::class, 'arrival_station_id');
     }
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

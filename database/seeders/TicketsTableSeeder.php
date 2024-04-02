@@ -7,18 +7,20 @@ use Illuminate\Support\Facades\DB;
 
 class TicketsTableSeeder extends Seeder
 {
+   
     public function run()
     {
-        // Seed some example tickets
-        DB::table('tickets')->insert([
-            [
-                'user_id' => 1,
-                'ride_id' => 1,
-            ],
-            [
-                'user_id' => 2,
-                'ride_id' => 2,
-            ],
-        ]);
+        $passengerIds = DB::table('users')->where('role_id', 1)->pluck('id');
+        $rideIds = DB::table('rides')->pluck('id');
+
+        foreach ($passengerIds as $passengerId) {
+            $randomRideId = $rideIds->random();
+            DB::table('tickets')->insert([
+                'user_id' => $passengerId,
+                'ride_id' => $randomRideId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

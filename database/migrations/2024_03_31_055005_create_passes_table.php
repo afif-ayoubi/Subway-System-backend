@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->enum('type', ['daily', 'weekly', 'monthly']);
-            $table->integer('rides_remaining');
             $table->dateTime('valid_from');
             $table->dateTime('valid_until');
             $table->timestamp('purchased_at')->useCurrent();

@@ -8,45 +8,45 @@ use Illuminate\Support\Facades\Hash;
 class UsersTableSeeder extends Seeder
 {
 
-    public function run(): void
+    public function run()
     {
-         DB::table('users')->insert([
-            'name' => 'Passenger User',
-            'email' => 'passenger@example.com',
-            'password' => Hash::make('password'),
-            'role_id' => 1, 
-            'location' => 'Some location',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
+        // Seed an admin
         DB::table('users')->insert([
-            'name' => 'Admin User',
+            'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
-            'role_id' => 3,
-            'location' => 'Admin location',
+            'role_id' => 3, 
+            'location' => 'Headquarters', 
+            'coins' => 0,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        DB::table('users')->insert([
-            'name' => 'Manager User',
-            'email' => 'manager@example.com',
-            'password' => Hash::make('password'),
-            'role_id' => 2, 
-            'location' => 'Manager location',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('users')->insert([
-            'name' => 'Manager2 User',
-            'email' => 'manager2@example.com',
-            'password' => Hash::make('password'),
-            'role_id' => 2, 
-            'location' => 'Manager location',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        for ($i = 1; $i <= 5; $i++) {
+            DB::table('users')->insert([
+                'name' => 'Manager ' . $i,
+                'email' => 'manager' . $i . '@example.com',
+                'password' => Hash::make('password'),
+                'role_id' => 2, 
+                'location' => 'Station ' . $i, 
+                'coins' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        for ($i = 1; $i <= 10; $i++) {
+            DB::table('users')->insert([
+                'name' => 'Passenger ' . $i,
+                'email' => 'passenger' . $i . '@example.com',
+                'password' => Hash::make('password'),
+                'role_id' => 1, 
+                'location' => 'Random Location',
+                'coins' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }
+
