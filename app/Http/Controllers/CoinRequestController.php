@@ -32,8 +32,7 @@ class CoinRequestController extends Controller
         $coinRequest->update($request->all());
         return response()->json(['message' => 'Coin request updated successfully'], 200);
     }
-    public function add(Request $request)
-    {
+    public function add(Request $request){
         $validatedData = $this->validateCoinRequest($request);
         $coinRequest = new CoinRequest();
         $coinRequest->user_id = $validatedData['user_id'];
@@ -42,13 +41,13 @@ class CoinRequestController extends Controller
         $coinRequest->save();
         return response()->json(['status' => 'success', 'coin_request' => $coinRequest], 201);
     }
-    private function validateCoinRequest(Request $request)
-    {
+    private function validateCoinRequest(Request $request){
         return $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'amount' => 'required',
-            "status" => 'required|in:pending,approved,rejected'
+            'user_id'=>'required|exists:users,id',
+            'amount'=>'required',
+            "status"=>'required|in:pending,approved,rejected'
 
         ]);
     }
+
 }
