@@ -108,4 +108,25 @@ class StationController extends Controller
         $station->delete();
         return response()->json(null, 204);
     }
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $stations = Station::where('name', 'like', "%$keyword%")
+            ->orWhere('address', 'like', "%$keyword%")
+            ->get();
+        return response()->json(['status' => 'sucees', 'stations' => $stations], 200);
+    }
+        public function getTopRatedStations()
+        {
+            $topRatedStations = Station::select('stations.*')
+                ->leftJoin('reviews', 'stations.id', '=', 'reviews.station_id')
+                ->selectRaw('AVG(reviews.rating) as average_rating, COUNT(reviews.id) as review_count')
+                ->groupBy('stations.id')
+                ->orderByDesc('average_rating')
+                ->orderByDesc('review_count')
+                ->limit(5)
+                ->get();
+    
+                return response()->json(['status' => 'sucees', 'stations' => $topRatedStations], 200);
+            }
 }

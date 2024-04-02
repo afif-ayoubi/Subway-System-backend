@@ -15,10 +15,14 @@ class ChatController extends Controller
     {
         $validatedData = $this->validateChatRequest($request);
 
+        $chat = new Chat();
+        $chat->user_id = $validatedData['user_id'];
+        $chat->recipient_id = $validatedData['recipient_id'];
+        $chat->message = $validatedData['message'];
 
-        $chat = Chat::create($validatedData);
+        $chat->save();
 
-        return response()->json(['chat' => $chat], 201);
+        return response()->json(['status' => 'success', 'chat' => $chat], 201);
     }
 
     public function getChats($user_id, $recipient_id)
@@ -31,7 +35,7 @@ class ChatController extends Controller
                 ->where('recipient_id', $user_id);
         })->orderBy('created_at', 'asc')->get();
 
-        return response()->json(['chats' => $chats], 200);
+        return response()->json(['status' => 'success', 'chats' => $chats], 200);
     }
 
     private function validateChatRequest(Request $request)

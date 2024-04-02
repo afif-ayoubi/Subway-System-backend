@@ -7,26 +7,23 @@ use Illuminate\Support\Facades\DB;
 
 class PassesTableSeeder extends Seeder
 {
+   
     public function run()
     {
-        // Seed some example passes
-        DB::table('passes')->insert([
-            [
-                'user_id' => 1,
-                'type' => 'daily',
-                'rides_remaining' => 5,
-                'valid_from' => now(),
-                'valid_until' => now()->addDay(),
-                'purchased_at' => now(),
-            ],
-            [
-                'user_id' => 1,
-                'type' => 'monthly',
-                'rides_remaining' => 20,
-                'valid_from' => now(),
-                'valid_until' => now()->addMonth(),
-                'purchased_at' => now(),
-            ],
-        ]);
+        $passengerIds = DB::table('users')->where('role_id', 1)->pluck('id');
+
+        foreach ($passengerIds as $passengerId) {
+            for ($i = 0; $i < 3; $i++) { 
+                DB::table('passes')->insert([
+                    'user_id' => $passengerId,
+                    'type' => 'daily', 
+                    'valid_from' => now()->addDays($i),
+                    'valid_until' => now()->addDays($i + 1),
+                    'purchased_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }

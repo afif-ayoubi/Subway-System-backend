@@ -6,27 +6,29 @@ use Illuminate\Support\Facades\DB;
 
 class RidesTableSeeder extends Seeder
 {
+  
     public function run()
     {
-        DB::table('rides')->insert([
-            [
-                'departure_station_id' => 1,
-                'arrival_station_id' => 2,
-                'departure_time' => now(),
-                'arrival_time' => now()->addHours(2),
-                'status' => 'pending',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'departure_station_id' => 2,
-                'arrival_station_id' => 1,
-                'departure_time' => now()->addHours(3),
-                'arrival_time' => now()->addHours(5),
-                'status' => 'pending',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+        $stationIds = DB::table('stations')->pluck('id');
+
+        foreach ($stationIds as $stationId) {
+            $otherStationIds = $stationIds->except($stationId);
+            $randomArrivalStationId = $otherStationIds->random();
+
+            for ($i = 0; $i < 5; $i++) {
+                $departureTime = now()->addDays($i); 
+                $arrivalTime = $departureTime->copy()->addHours(3); 
+
+                DB::table('rides')->insert([
+                    'departure_station_id' => $stationId,
+                    'arrival_station_id' => $randomArrivalStationId,
+                    'departure_time' => $departureTime,
+                    'arrival_time' => $arrivalTime,
+                    'status' => 'pending',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }

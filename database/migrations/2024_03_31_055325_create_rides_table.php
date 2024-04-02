@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('arrival_station_id');
             $table->dateTime('departure_time');
             $table->dateTime('arrival_time');
-            $table->enum('status', ['pending', 'ongoing', 'completed']);
+            $table->enum('status', ['pending', 'ongoing', 'completed', 'cancelled']);
             $table->timestamps();
-
+            
             $table->foreign('departure_station_id')->references('id')->on('stations')->onDelete('cascade');
             $table->foreign('arrival_station_id')->references('id')->on('stations')->onDelete('cascade');
         });

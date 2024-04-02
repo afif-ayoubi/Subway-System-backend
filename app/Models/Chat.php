@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Chat extends Model
 {
     use HasFactory;
-    protected $fillable = ['message, user_id, recipient_id'];
 
     public function user()
     {
