@@ -83,8 +83,8 @@ Route::middleware('auth:api')->group(function () {
     
     // Station Routes
     Route::get('get-all-stations', [StationController::class, 'index']);
-    Route::get('stations/{id}', [StationController::class, 'show']);
-    Route::post('stations', [StationController::class, 'store']);
+    Route::get('get-station-by-id/{id}', [StationController::class, 'show']);
+    Route::post('add-station', [StationController::class, 'store']);
     Route::put('stations/{id}', [StationController::class, 'update']);
     Route::delete('stations/{id}', [StationController::class, 'destroy']);
     Route::get('stations/{id}/location', [StationController::class, 'getLocation']);
