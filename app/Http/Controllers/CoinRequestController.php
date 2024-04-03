@@ -13,7 +13,7 @@ class CoinRequestController extends Controller
     }
     public function getAllRequest()
     {
-        $coinRequests = CoinRequest::all();
+        $coinRequests = CoinRequest::with('user')->get();
         return response()->json(['status' => 'success', 'coin_requests' => $coinRequests], 200);
     }
     public function delete($id)
@@ -32,22 +32,28 @@ class CoinRequestController extends Controller
         $coinRequest->update($request->all());
         return response()->json(['message' => 'Coin request updated successfully'], 200);
     }
-    public function add(Request $request){
+    public function add(Request $request)
+    {
         $validatedData = $this->validateCoinRequest($request);
         $coinRequest = new CoinRequest();
         $coinRequest->user_id = $validatedData['user_id'];
-        $coinRequest->coins = $validatedData['amount'];
+        $coinRequest->amount = $validatedData['amount'];
         $coinRequest->status = $validatedData['status'];
         $coinRequest->save();
         return response()->json(['status' => 'success', 'coin_request' => $coinRequest], 201);
     }
-    private function validateCoinRequest(Request $request){
+    public function sumAmuountByUserId($user_id)
+    {
+        $sumAmount = CoinRequest::where('user_id', $user_id)->where('status', 'approved')->sum('amount');
+        return response()->json(['status' => 'success', 'sum_amount' => $sumAmount], 200);
+    }
+    private function validateCoinRequest(Request $request)
+    {
         return $request->validate([
-            'user_id'=>'required|exists:users,id',
-            'amount'=>'required',
-            "status"=>'required|in:pending,approved,rejected'
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required',
+            "status" => 'required|in:pending,approved,rejected'
 
         ]);
     }
-
 }

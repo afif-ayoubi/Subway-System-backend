@@ -60,6 +60,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/add-coin-request', [CoinRequestController::class, 'add']);
     Route::post('/update-coin-request/{id}', [CoinRequestController::class, 'update']);
     Route::delete('/delete-coin-request/{id}', [CoinRequestController::class, 'delete']);
+    Route::get('/sum-amount-by-user-id/{user_id}', [CoinRequestController::class, 'sumAmuountByUserId']);
 
     // Pass API
     Route::post('/add-pass', [PassController::class, 'addPass']);
