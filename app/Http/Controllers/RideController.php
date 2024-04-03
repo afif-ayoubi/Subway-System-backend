@@ -11,6 +11,10 @@ class RideController extends Controller
     {
         $this->middleware('auth:api');
     }
+    public function getAllRides(){
+        $rides=Ride::all();
+        return response()->json(['status'=>'success','rides'=>$rides],200);
+    }
     public function getRidesForDeparture($station_id)
     {
         $rides = Ride::where('departure_station_id', $station_id)->get();
