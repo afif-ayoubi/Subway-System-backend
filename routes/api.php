@@ -67,6 +67,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/get-passes/{user_id}', [PassController::class, 'getPasses']);
 
     // Ride API
+    Route::get('/get-all-rides', [RideController::class, 'getAllRides']);
     Route::get('/rides-for-departure/{station_id}', [RideController::class, 'getRidesForDeparture']);
     Route::get('/rides-for-arrival/{station_id}', [RideController::class, 'getRidesForArrivalStation']);
     Route::post('/update-ride/{rideId}', [RideController::class, 'updateRide']);
