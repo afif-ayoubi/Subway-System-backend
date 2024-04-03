@@ -45,7 +45,7 @@ Route::controller(StationController::class)->group(function () {
     Route::delete('stations/{id}', 'destroy');
     Route::get('stations/{id}/location', 'getLocation');
     Route::post('stations', 'search');
-    Route::get('stations', 'getReviews');
+    Route::get('stations', 'getTopRatedStations');
 });
 
 
@@ -75,5 +75,20 @@ Route::middleware('auth:api')->group(function () {
 
     // Ticket API
     Route::post('/add-ticket', [TicketController::class, 'addTicket']);
-    Route::get('/get-tickets/{user_id}', [TicketController::class, 'getTickets']);
+    Route::get('/get-tickets/{user_id}', [TicketController::class, 'getTickets']);Route::get('reviews', [ReviewController::class, 'index']);
+    Route::get('reviews/{id}', [ReviewController::class, 'show']);
+    Route::post('reviews', [ReviewController::class, 'store']);
+    Route::put('reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('reviews/{id}', [ReviewController::class, 'destroy']);
+    
+    // Station Routes
+    Route::get('get-all-stations', [StationController::class, 'index']);
+    Route::get('stations/{id}', [StationController::class, 'show']);
+    Route::post('stations', [StationController::class, 'store']);
+    Route::put('stations/{id}', [StationController::class, 'update']);
+    Route::delete('stations/{id}', [StationController::class, 'destroy']);
+    Route::get('stations/{id}/location', [StationController::class, 'getLocation']);
+    Route::post('stations', [StationController::class, 'search']);
+    Route::get('stations', [StationController::class, 'getTopRatedStations']);
+
 });
