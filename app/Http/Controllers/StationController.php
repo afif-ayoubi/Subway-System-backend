@@ -39,19 +39,23 @@ class StationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'manager_id' => 'required|exists:users,id',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'address' => 'required|string|max:255',
-            'operating_hours' => 'nullable|string',
-            'facilities' => 'nullable|string',
-            'service_status' => 'required|in:operational,maintenance,closed',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'manager_id' => 'required|exists:users,id',
+                'latitude' => 'required|numeric',
+                'longitude' => 'required|numeric',
+                'address' => 'required|string|max:255',
+                'operating_hours' => 'nullable|string',
+                'facilities' => 'nullable|string',
+                'service_status' => 'required|in:operational,maintenance,closed',
+            ]);
 
-        $station = Station::create($request->all());
-        return response()->json(['station' => $station], 201);
+            $station = Station::create($request->all());
+            return response()->json(['station' => $station], 201);
+        } catch (\Exception $e) {
+            return response()->json((['status' => 'error', 'message' => $e->getMessage()]), 500);
+        }
     }
 
     /**
@@ -63,6 +67,7 @@ class StationController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $station = Station::findOrFail($id);
 
         $request->validate([
@@ -78,8 +83,10 @@ class StationController extends Controller
 
         $station->update($request->all());
         return response()->json(['station' => $station], 200);
+    }catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
-
+    }
     /**
      * Get the location of a station by its ID.
      *
@@ -116,17 +123,17 @@ class StationController extends Controller
             ->get();
         return response()->json(['status' => 'sucees', 'stations' => $stations], 200);
     }
-        public function getTopRatedStations()
-        {
-            $topRatedStations = Station::select('stations.*')
-                ->leftJoin('reviews', 'stations.id', '=', 'reviews.station_id')
-                ->selectRaw('AVG(reviews.rating) as average_rating, COUNT(reviews.id) as review_count')
-                ->groupBy('stations.id')
-                ->orderByDesc('average_rating')
-                ->orderByDesc('review_count')
-                ->limit(5)
-                ->get();
-    
-                return response()->json(['status' => 'sucees', 'stations' => $topRatedStations], 200);
-            }
+    public function getTopRatedStations()
+    {
+        $topRatedStations = Station::select('stations.*')
+            ->leftJoin('reviews', 'stations.id', '=', 'reviews.station_id')
+            ->selectRaw('AVG(reviews.rating) as average_rating, COUNT(reviews.id) as review_count')
+            ->groupBy('stations.id')
+            ->orderByDesc('average_rating')
+            ->orderByDesc('review_count')
+            ->limit(5)
+            ->get();
+
+        return response()->json(['status' => 'sucees', 'stations' => $topRatedStations], 200);
+    }
 }
