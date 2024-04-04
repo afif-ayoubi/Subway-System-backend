@@ -29,7 +29,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::controller(ReviewController::class)->group(function () {
-    Route::get('reviews', 'index');
+    Route::get('get-all-review', 'index');
     Route::get('reviews/{id}', 'show');
     Route::post('reviews', 'store');
     Route::put('reviews/{id}', 'update');
