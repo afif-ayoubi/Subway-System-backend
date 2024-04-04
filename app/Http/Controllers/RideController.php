@@ -53,17 +53,23 @@ class RideController extends Controller
     }
     public function addRide(Request $request)
     {
-        $validatedData = $this->validateDataRequest($request);
-        $ride = new Ride();
-        $ride->departure_station_id = $validatedData['departure_station_id'];
-        $ride->arrival_station_id = $validatedData['arrival_station_id'];
-        $ride->departure_time = $validatedData['departure_time'];
-        $ride->arrival_time = $validatedData['arrival_time'];
-        $ride->status = $validatedData['status'];
-        $ride->save();
-        return response()->json(['status' => 'success', 'ride' => $ride], 201);
+        try {
+            $validatedData = $this->validateDataRequest($request);
+            
+            $ride = new Ride();
+            $ride->departure_station_id = $validatedData['departure_station_id'];
+            $ride->arrival_station_id = $validatedData['arrival_station_id'];
+            $ride->departure_time = $validatedData['departure_time'];
+            $ride->arrival_time = $validatedData['arrival_time'];
+            $ride->status = $validatedData['status'];
+            $ride->save();
+            
+            return response()->json(['status' => 'success', 'ride' => $ride], 201);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
-
+    
     private function validateDataRequest(Request $request)
     {
         return $request->validate([

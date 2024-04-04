@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Stmt\Catch_;
 
 class TicketController extends Controller
 {
@@ -30,16 +32,19 @@ class TicketController extends Controller
 
     public function getTickets($user_id)
     {
-        $ticket = Ticket::with('ride')->where( function ($query) use ($user_id) {
-            $query->where('id', $user_id);
-        })->get();
-        if ($ticket) {
-            return response()->json(['status' => 'success', 'tickets' => $ticket], 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'Tickets not found'], 404);
+        try {
+            $tickets = Ticket::with('ride')->where('user_id', $user_id)->get();
+    
+            if ($tickets->isEmpty()) {
+                return response()->json(['status' => 'error', 'message' => 'Tickets not found'], 404);
+            }
+    
+            return response()->json(['status' => 'success', 'tickets' => $tickets], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
-
+    
     private function validateTicketRequest(Request $request)
     {
         return $request->validate([
