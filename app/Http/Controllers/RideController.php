@@ -31,14 +31,36 @@ class RideController extends Controller
 
     public function getRidesForDeparture($station_id)
     {
-        $rides = Ride::where('departure_station_id', $station_id)->get();
-        return response()->json(['status' => 'success', 'rides' => $rides], 200);
+        try {
+            $rides = Ride::with(['departureStation' => function ($query) {
+                $query->select('id', 'name');
+            }, 'arrivalStation' => function ($query) {
+                $query->select('id', 'name');
+            }])
+                ->where('departure_station_id', $station_id)
+                ->get();
+
+            return response()->json(['status' => 'success', 'rides' => $rides], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
+
     public function getRidesForArrivalStation($stationId)
     {
-        $rides = Ride::where('arrival_station_id', $stationId)->get();
+        try {
+            $rides = Ride::with(['departureStation' => function ($query) {
+                $query->select('id', 'name');
+            }, 'arrivalStation' => function ($query) {
+                $query->select('id', 'name');
+            }])
+                ->where('arrival_station_id', $stationId)
+                ->get();
 
-        return response()->json(['rides' => $rides], 200);
+            return response()->json(['status' => 'success', 'rides' => $rides], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
     public function updateRide(Request $request, $rideId)
     {
@@ -55,7 +77,7 @@ class RideController extends Controller
 
             return response()->json(['status' => 'success', 'message' => 'Ride deleted successfully'], 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['status' => "error", "message" => "Ride not found"], 404);
+            return response()->json(['stats' => "error", "message" => "Ride not found"], 404);
         }
     }
     public function addRide(Request $request)
