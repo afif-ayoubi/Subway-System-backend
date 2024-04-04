@@ -11,10 +11,21 @@ class RideController extends Controller
     {
         $this->middleware('auth:api');
     }
-    public function getAllRides(){
-        $rides=Ride::all();
-        return response()->json(['status'=>'success','rides'=>$rides],200);
+    public function getAllRides()
+    {
+        try {
+            $rides = Ride::with(['departureStation' => function($query) {
+                $query->select('id', 'name');
+            }, 'arrivalStation' => function($query) {
+                $query->select('id', 'name');
+            }])->get();
+            
+            return response()->json(['status' => 'success', 'rides' => $rides], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
+    
     public function getRidesForDeparture($station_id)
     {
         $rides = Ride::where('departure_station_id', $station_id)->get();
