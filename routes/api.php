@@ -91,5 +91,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('stations/{id}/location', [StationController::class, 'getLocation']);
     Route::post('stations', [StationController::class, 'search']);
     Route::get('stations', [StationController::class, 'getTopRatedStations']);
+//User Routes
+Route::get('get-user/{id}', [AuthController::class, 'getUser']);
+Route::post('update-user/{id}', [AuthController::class, 'updateUser']);
+Route::get('get-all-managers', [AuthController::class, 'getAllManager']);
 
 });

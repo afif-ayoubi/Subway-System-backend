@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthController extends Controller
 {
@@ -88,7 +90,45 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
-
+    public function getUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            return response()->json([
+                'status' => 'success',
+                'user' => $user,
+                'password'=>$user->password
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function updateUser($id, Request $request)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->update($request->all());
+            return response()->json([
+                'status' => 'success',
+                'user' => $user
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function getAllManager(){
+        $managers=User::where('role_id',2)->get();
+        return response()->json([
+            'status' => 'success',
+            'managers' => $managers
+        ]);
+    }
     public function refresh()
     {
         return response()->json([
