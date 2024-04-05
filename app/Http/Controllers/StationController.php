@@ -68,24 +68,24 @@ class StationController extends Controller
     public function update(Request $request, $id)
     {
         try {
-        $station = Station::findOrFail($id);
+            $station = Station::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'manager_id' => 'required|exists:users,id',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'address' => 'required|string|max:255',
-            'operating_hours' => 'nullable|string',
-            'facilities' => 'nullable|string',
-            'service_status' => 'required|in:operational,maintenance,closed',
-        ]);
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'manager_id' => 'required|exists:users,id',
+                'latitude' => 'required|numeric',
+                'longitude' => 'required|numeric',
+                'address' => 'required|string|max:255',
+                'operating_hours' => 'nullable|string',
+                'facilities' => 'nullable|string',
+                'service_status' => 'required|in:operational,maintenance,closed',
+            ]);
 
-        $station->update($request->all());
-        return response()->json(['station' => $station], 200);
-    }catch (\Exception $e) {
-        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
-    }
+            $station->update($request->all());
+            return response()->json(['station' => $station], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
     /**
      * Get the location of a station by its ID.
@@ -131,7 +131,7 @@ class StationController extends Controller
             ->groupBy('stations.id')
             ->orderByDesc('average_rating')
             ->orderByDesc('review_count')
-            ->limit(5)
+            ->limit(3)
             ->get();
 
         return response()->json(['status' => 'sucees', 'stations' => $topRatedStations], 200);

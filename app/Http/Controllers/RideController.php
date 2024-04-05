@@ -64,9 +64,15 @@ class RideController extends Controller
     }
     public function updateRide(Request $request, $rideId)
     {
-        $ride = Ride::findOrFail($rideId);
-        $ride->update($request->all());
-        return response()->json(['status' => 'success', 'ride' => $ride], 200);
+        try {
+            $ride = Ride::findOrFail($rideId);
+            $ride->update($request->all());
+            return response()->json(['status' => 'success', 'ride' => $ride], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 404);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
     public function deleteRide($rideId)
     {
